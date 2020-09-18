@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
@@ -7,12 +8,22 @@ import 'package:mykart/ProductPage.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:mykart/widgets/CategoryItem.dart';
 
+import 'cart.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+  List<Product> _cartList = List<Product>();
+
+  int CartNumber=0;
+
+
+
   List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -133,9 +144,32 @@ class _HomePageState extends State<HomePage> {
           icon: Icon(EvaIcons.menu2Outline),
         ),
         actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(EvaIcons.shoppingBagOutline),
+
+
+
+
+
+          Badge(
+
+            badgeColor: Colors.red,
+            position: BadgePosition.topLeft(top: 10,left: 1),
+            badgeContent: Text(CartNumber.toString(),
+            style: TextStyle(color: Colors.white),
+            ),
+            child: IconButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>Cart(_cartList)),
+                );
+
+
+              },
+              icon: Icon(EvaIcons.shoppingBagOutline,
+
+              size: 30,),
+            ),
           ),
         ],
       ),
@@ -349,7 +383,7 @@ class _HomePageState extends State<HomePage> {
                 physics: ClampingScrollPhysics(),
                 crossAxisCount: 2,
                 shrinkWrap: true,
-                childAspectRatio: 1 / 1.25,
+                childAspectRatio: 1 / 2,
                 children: products.map((product) {
                   return Stack(
                     children: <Widget>[
@@ -360,8 +394,23 @@ class _HomePageState extends State<HomePage> {
                               tag: product.image,
                               child: AspectRatio(
                                 aspectRatio: 1 / 1,
-                                child: Image(
-                                  image: AssetImage(product.image),
+                                child: Material(
+
+                                  child: InkWell(
+    onTap: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ProductPage(
+                  product: product,
+                ),
+          ));
+    },
+                                    child: Image(
+                                      image: AssetImage(product.image),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -376,23 +425,35 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.amber,
                               ),
                             ),
+
+                            FlatButton(onPressed: (){
+                              addItemtoCart(product);
+                            },
+                                  splashColor: Colors.black12,
+                            child: Text("Add to cart",
+                            style: TextStyle(color: Colors.white),
+
+                            ),
+                              color: Colors.black,
+                            )
+
                           ],
                         ),
                       ),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductPage(
-                                    product: product,
-                                  ),
-                                ));
-                          },
-                        ),
-                      )
+//                      Material(
+//                        color: Colors.transparent,
+//                        child: InkWell(
+//                          onTap: () {
+//                            Navigator.push(
+//                                context,
+//                                MaterialPageRoute(
+//                                  builder: (context) => ProductPage(
+//                                    product: product,
+//                                  ),
+//                                ));
+//                          },
+//                        ),
+//                      )
                     ],
                   );
                 }).toList(),
@@ -402,5 +463,19 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void addItemtoCart(products) {
+
+
+    setState(() {
+
+      CartNumber++;
+
+    });
+
+    _cartList.add(products);
+    print(_cartList.toList());
+
   }
 }
