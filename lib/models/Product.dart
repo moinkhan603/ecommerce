@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 class Product {
   final String productName;
   final String image;
-  final String price;
+  final int price;
   final String description;
 
   Product({
@@ -12,4 +12,13 @@ class Product {
     @required this.price,
     @required this.productName
   });
+
+
+static  List<Product> cartList = List<Product>();
+
+  static var CartNumber=0.obs;
+static var total=0;
+
+
+
 }

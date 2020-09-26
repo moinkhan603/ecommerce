@@ -1,6 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mykart/models/Product.dart';
+
+import 'cart.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
@@ -10,6 +14,22 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+//      appBar: AppBar(
+//        centerTitle: true,
+//        title: Text(
+//          product.productName,
+//          style: TextStyle(
+//            color: Colors.black,
+//          ),
+//        ),
+//        backgroundColor: Colors.white,
+//        brightness: Brightness.light,
+//        elevation: 0,
+//        actionsIconTheme: IconThemeData(color: Colors.black),
+//        iconTheme: IconThemeData(color: Colors.black),
+//      ),
+
+
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -23,10 +43,40 @@ class ProductPage extends StatelessWidget {
         elevation: 0,
         actionsIconTheme: IconThemeData(color: Colors.black),
         iconTheme: IconThemeData(color: Colors.black),
+
+        actions: <Widget>[
+
+
+
+
+
+          Badge(
+
+            badgeColor: Colors.red,
+            position: BadgePosition.topLeft(top: 10,left: 1),
+            badgeContent: Obx(() => Text(Product.CartNumber.string,
+              style: TextStyle(color: Colors.white),
+            ),
+
+
+            ),
+            child: IconButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>Cart()),
+                );
+
+
+              },
+              icon: Icon(EvaIcons.shoppingBagOutline,
+
+                size: 30,),
+            ),
+          ),
+        ],
       ),
-     
-      
-     
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -59,9 +109,9 @@ class ProductPage extends StatelessWidget {
                   vertical: 0,
                 ),
                 child: Text(
-                  "${product.price}\$",
+                  "RS ${product.price}",
                   style: TextStyle(
-                    fontSize: 50,
+                    fontSize: 40,
                     fontWeight: FontWeight.w700,
                     color: Colors.amber,
                   ),
@@ -78,21 +128,17 @@ class ProductPage extends StatelessWidget {
 
                     Expanded(
                       child: OutlineButton.icon(
-                        icon: Icon(EvaIcons.shoppingBagOutline),
-                        label: Text("Cart"),
-                        onPressed: (){},
-                      ),
-                    ),
-                    SizedBox(width: 10,),
-                    Expanded(
-                      child: RaisedButton.icon(
+
                         textColor: Colors.black,
                         color: Colors.amber,
-                        icon: Icon(EvaIcons.creditCard),
-                        label: Text("Buy Now"),
-                        onPressed: (){},
+                        icon: Icon(EvaIcons.shoppingBagOutline),
+                        label: Text("Add to Cart"),
+                        onPressed: (){
+                          addItemtoCart(product);
+                        },
                       ),
                     ),
+
 
                   ],
                 ),
@@ -115,4 +161,19 @@ class ProductPage extends StatelessWidget {
       ),
     );
   }
+
+  void addItemtoCart(products) {
+
+
+   // Get.snackbar("item Added", "dsdsd");
+
+      Product.CartNumber++;
+
+      Product.total=Product.total+products.price;
+
+    Product.cartList.add(products);
+    print(Product.cartList.toList());
+
+  }
+
 }

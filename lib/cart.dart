@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mykart/OrderPlacement.dart';
 import 'package:mykart/models/Product.dart';
 class Cart extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 
-  List<Product> _cartList = List<Product>();
+ // List<Product> _cartList = List<Product>();
 
-  Cart(this._cartList);
+  Cart();
 
 }
 
@@ -19,31 +20,42 @@ class _CartState extends State<Cart> {
     return Scaffold(
 
 
-      bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.orange,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-
-
-          Text("Proceed to checkout",
-          style: TextStyle(color: Colors.white),),
-          Row(
+      bottomNavigationBar:
+      Product.CartNumber!=0?
+      InkWell(
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => OrderPlacement()),
+          );
+        },
+        child: Container(
+          height: 50,
+          color: Colors.orange,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("PKR $total",
-                  style: TextStyle(color: Colors.white)
-
-              ),
-              Icon(Icons.chevron_right
-              ,color: Colors.white,)
-            ],
-          ),
 
 
+            Text("Proceed to checkout",
+            style: TextStyle(color: Colors.white),),
+            Row(
+              children: [
+                Text("PKR "+Product.total.toString(),
+                    style: TextStyle(color: Colors.white)
 
-        ],),
-      ),
+                ),
+                Icon(Icons.chevron_right
+                ,color: Colors.white,)
+              ],
+            ),
+
+
+
+          ],),
+        ),
+      ):
+       Text(""),
       appBar: AppBar(
 
         title: Text("CART",
@@ -53,15 +65,17 @@ centerTitle: true,
 elevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: ListView.builder(
+      body:
+      Product.CartNumber!=0?
+      ListView.builder(
 physics: BouncingScrollPhysics(),
 
-        itemCount: widget._cartList.length,
+        itemCount: Product.cartList.length,
     itemBuilder: (BuildContext ctxt, int index) {
 
-      var item = widget._cartList[index];
+      var item = Product.cartList[index];
 
-  total=total+ int.parse(item.price);
+  total=total+ int.parse(item.price.toString());
 
       return ListTile(
 
@@ -71,15 +85,16 @@ physics: BouncingScrollPhysics(),
         trailing: InkWell(
             onTap: (){
 
-              widget._cartList.remove(item);
+              Product.cartList.remove(item);
               setState(() {
-
+Product.CartNumber=Product.CartNumber-1;
+Product.total=Product.total-item.price;
               });
             },
 
             child: Icon(Icons.cancel)),
         title: Text(item.productName),
-        subtitle: Text(item.price),
+        subtitle: Text("RS "+item.price.toString()),
       );
 
 
@@ -87,7 +102,15 @@ physics: BouncingScrollPhysics(),
     }
 
 
-      )
+      ):
+          Container(child: Center(
+            child: Text("No Items Added Yet",
+            style: TextStyle(color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20),
+
+            ),
+          ),)
 
       
     );
