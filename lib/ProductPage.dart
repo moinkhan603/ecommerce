@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mykart/HomePage.dart';
 import 'package:mykart/models/Product.dart';
 
 import 'cart.dart';
@@ -134,6 +135,8 @@ class ProductPage extends StatelessWidget {
                         icon: Icon(EvaIcons.shoppingBagOutline),
                         label: Text("Add to Cart"),
                         onPressed: (){
+
+
                           addItemtoCart(product);
                         },
                       ),
@@ -165,14 +168,39 @@ class ProductPage extends StatelessWidget {
   void addItemtoCart(products) {
 
 
-   // Get.snackbar("item Added", "dsdsd");
 
-      Product.CartNumber++;
+    Product.CartNumber++;
 
-      Product.total=Product.total+products.price;
+    Product.total=Product.total+products.price;
 
-    Product.cartList.add(products);
+
+    if(Product.cartList.contains(products))
+    {
+      //  var QTY=products.qty+1;
+      Product(qty:products.qty=products.qty+1
+      );
+
+      // products.qty=products.qty+1;
+
+
+
+    }
+    else{
+      Product.cartList.add(products);
+      //var QTY=products.qty+1;
+      Product(qty:products.qty=products.qty+1
+      );
+      // Product.total=Product.total+(products.price*products.qty);
+      //Product.total=Product.total+(products.price*products.qty);
+    }
+//var itemResult=(products.price*products.qty);
+
+    print("Qty"+products.qty.toString());
+    print(Product.total);
+    //  Product.cartList.add(products);
     print(Product.cartList.toList());
+
+
 
   }
 

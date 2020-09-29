@@ -42,73 +42,87 @@ class _HomePageState extends State<HomePage> {
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price: 200,
-        productName: "iPad mini"),
+        productName: "iPad mini",
+        qty:0
+    ),
+
     Product(
         image: "assets/product2.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  20,
-        productName: "iPad Pro"),
+        productName: "iPad Pro",
+        qty:0),
     Product(
         image: "assets/product3.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  220,
-        productName: "iPhone Pro Max"),
+        productName: "iPhone Pro Max",
+        qty:0),
     Product(
         image: "assets/product4.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  210,
-        productName: "Apple Watch Series 3"),
+        productName: "Apple Watch Series 3",
+        qty:0),
     Product(
         image: "assets/product5.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  300,
-        productName: "Apple Watch Series 4"),
+        productName: "Apple Watch Series 4",
+        qty:0),
     Product(
         image: "assets/product6.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  240,
-        productName: "Macbook Pro 16 inch"),
+        productName: "Macbook Pro 16 inch",
+        qty:0),
     Product(
         image: "assets/product7.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "Macbook Pro"),
+        productName: "Macbook Pro",
+        qty:0),
     Product(
         image: "assets/product8.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "iMac 4k Retina"),
+        productName: "iMac 4k Retina",
+        qty:0),
     Product(
         image: "assets/product9.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "T-Shirts"),
+        productName: "T-Shirts",
+        qty:0),
     Product(
         image: "assets/product10.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "Ethnic Wear - Dress"),
+        productName: "Ethnic Wear - Dress",
+        qty:0),
     Product(
         image: "assets/product11.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "Dress"),
+        productName: "Dress",
+        qty:0),
     Product(
         image: "assets/product12.jpg",
         description:
             "Repudiandae quibusdam quis harum odit.Autem sunt sit. Neque sapiente officia laudantium voluptatem dolores itaque dolore odio. Voluptatem reprehenderit beatae eum eligendi dolorem laborum voluptate nihil vel.",
         price:  200,
-        productName: "T-Shirt"),
+        productName: "T-Shirt",
+        qty:0),
   ];
 
   GlobalKey<ScaffoldState> drawerKey = GlobalKey();
@@ -127,6 +141,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       key: drawerKey,
+
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -155,7 +170,7 @@ class _HomePageState extends State<HomePage> {
           Badge(
 
             badgeColor: Colors.red,
-            position: BadgePosition.topLeft(top: 10,left: 1),
+            position: BadgePosition.topLeft(top: 10,left: -1),
             badgeContent:Obx(() => Text(Product.CartNumber.string,
               style: TextStyle(color: Colors.white),
             ),
@@ -186,34 +201,34 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-//            UserAccountsDrawerHeader(
-//              decoration: BoxDecoration(
-//                color: Colors.amber,
-//                borderRadius: BorderRadius.circular(16),
-//              ),
-//              accountEmail: Text(
-//                "person@mail.com",
-//                style: TextStyle(
-//                  color: Colors.black,
-//                ),
-//              ),
-//              accountName: Text(
-//                "Allice",
-//                style: TextStyle(
-//                  color: Colors.black,
-//                ),
-//              ),
-//              currentAccountPicture: ClipRRect(
-//                borderRadius: BorderRadius.circular(70),
-//                child: Image(
-//                  image: NetworkImage(
-//                      "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
-//                  width: 70,
-//                  height: 70,
-//                  fit: BoxFit.cover,
-//                ),
-//              ),
-//            ),
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              accountEmail: Text(
+                "person@mail.com",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              accountName: Text(
+                "Allice",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              currentAccountPicture: ClipRRect(
+                borderRadius: BorderRadius.circular(70),
+                child: Image(
+                  image: NetworkImage(
+                      "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
+                  width: 70,
+                  height: 70,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             SizedBox(height: 10),
             ListTile(
               onTap: (){
@@ -238,6 +253,12 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text("Account"),
               leading: Icon(EvaIcons.personOutline),
+            ),
+
+            SizedBox(height: 10),
+            ListTile(
+              title: Text("Orders"),
+              leading: Icon(EvaIcons.briefcase),
             ),
             SizedBox(height: 10),
             ListTile(
@@ -304,8 +325,10 @@ class _HomePageState extends State<HomePage> {
               // banner ad slider
 
               CarouselSlider(
+
                 options: CarouselOptions(
-                  aspectRatio: 16 / 9,
+
+                  aspectRatio: 16 / 8,
                   autoPlay: true,
                 ),
                 items: bannerAdSlider.map((i) {
@@ -315,7 +338,7 @@ class _HomePageState extends State<HomePage> {
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 10.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(10),
                           child: Image(
                             image: AssetImage(i),
                             fit: BoxFit.cover,
@@ -387,7 +410,7 @@ class _HomePageState extends State<HomePage> {
                               product.productName,
                             ),
                             Text(
-                              "${product.price}\$",
+                              "RS ${product.price}",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -397,6 +420,8 @@ class _HomePageState extends State<HomePage> {
 
                             FlatButton(onPressed: (){
                               addItemtoCart(product);
+
+
 
                             },
                                   splashColor: Colors.black12,
@@ -433,19 +458,63 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+
+
+
   }
 
   void addItemtoCart(products) {
 
 
-
+//products.qty=0;
 
       Product.CartNumber++;
 
-   Product.total=Product.total+products.price;
-print(Product.total);
-    Product.cartList.add(products);
-    print(Product.cartList.toList());
+      Product.total=Product.total+products.price;
+
+
+if(Product.cartList.contains(products))
+  {
+  //  var QTY=products.qty+1;
+    Product(qty:products.qty=products.qty+1
+    );
+
+   // products.qty=products.qty+1;
+
+
+
 
   }
+else{
+  Product.cartList.add(products);
+  //var QTY=products.qty+1;
+  Product(qty:products.qty=products.qty+1
+  );
+ // Product.total=Product.total+(products.price*products.qty);
+  //Product.total=Product.total+(products.price*products.qty);
+}
+//var itemResult=(products.price*products.qty);
+
+print("Qty"+products.qty.toString());
+      print(Product.total);
+  //  Product.cartList.add(products);
+    print(Product.cartList.toList());
+
+    drawerKey.currentState.showSnackBar(new SnackBar(content: new Text("Item Added"),
+      duration: const Duration(milliseconds:200 ),
+      action: SnackBarAction(
+
+        label: 'Close',
+        textColor: Colors.blue,
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+
+    ));
+
+
+
+  }
+
 }

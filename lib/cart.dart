@@ -11,12 +11,19 @@ class Cart extends StatefulWidget {
 
 }
 
+
 class _CartState extends State<Cart> {
 
 
+
   int total=0;
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
 
 
@@ -87,14 +94,33 @@ physics: BouncingScrollPhysics(),
 
               Product.cartList.remove(item);
               setState(() {
-Product.CartNumber=Product.CartNumber-1;
-Product.total=Product.total-item.price;
+                //if(Product.CartNumber!=0)
+
+                if(Product.cartList!=null)
+                {
+                    Product.CartNumber=Product.CartNumber-item.qty;
+                    Product.total=Product.total-(item.price*item.qty);
+                  item.qty=0;
+                  }
+
               });
             },
 
             child: Icon(Icons.cancel)),
         title: Text(item.productName),
-        subtitle: Text("RS "+item.price.toString()),
+       // subtitle: Text("RS "+item.price.toString()),
+
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+        Text("RS "+item.price.toString()),
+
+        Text("Qty x "+item.qty.toString(),style: TextStyle(color: Colors.orange,
+        fontWeight: FontWeight.bold
+        ),)
+
+      ],),
+
       );
 
 
