@@ -92,7 +92,8 @@ Divider(thickness: 2,),
                     mainAxisSize: MainAxisSize
                         .max,
                     children: <Widget>[
-                      new Flexible(
+                      new
+                      Flexible(
                         child: new TextField(
 
                             decoration: const InputDecoration(

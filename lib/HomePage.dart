@@ -1,17 +1,23 @@
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mykart/ProductPage.dart';
+import 'package:mykart/loginScreen.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:mykart/widgets/CategoryItem.dart';
 
 import 'cart.dart';
 
 class HomePage extends StatefulWidget {
+  FirebaseUser user;
+
+  HomePage([this.user]);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -139,6 +145,8 @@ class _HomePageState extends State<HomePage> {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
+
+
     return Scaffold(
       key: drawerKey,
 
@@ -201,33 +209,47 @@ class _HomePageState extends State<HomePage> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              accountEmail: Text(
-                "person@mail.com",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              accountName: Text(
-                "Allice",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              currentAccountPicture: ClipRRect(
-                borderRadius: BorderRadius.circular(70),
-                child: Image(
-                  image: NetworkImage(
-                      "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                ),
-              ),
+//            UserAccountsDrawerHeader(
+//              decoration: BoxDecoration(
+//                color: Colors.amber,
+//                borderRadius: BorderRadius.circular(16),
+//              ),
+//              accountEmail: Text(
+//                "person@mail.com",
+//                style: TextStyle(
+//                  color: Colors.black,
+//                ),
+//              ),
+//              accountName: Text(
+//                "Allice",
+//                style: TextStyle(
+//                  color: Colors.black,
+//                ),
+//              ),
+//              currentAccountPicture: ClipRRect(
+//                borderRadius: BorderRadius.circular(70),
+//                child: Image(
+//                  image: NetworkImage(
+//                      "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
+//                  width: 70,
+//                  height: 70,
+//                  fit: BoxFit.cover,
+//                ),
+//              ),
+//            ),
+
+
+            ListTile(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>LoginScreen()),
+                );
+
+              },
+              title: Text("Login"),
+              leading: Icon(EvaIcons.person),
+
             ),
             SizedBox(height: 10),
             ListTile(
@@ -390,6 +412,10 @@ class _HomePageState extends State<HomePage> {
 
                                   child: InkWell(
     onTap: () {
+
+
+
+
       Navigator.push(
           context,
           MaterialPageRoute(

@@ -1,4 +1,4 @@
-package com.example.mykart
+package com.flashsol.parashstore
 
 import io.flutter.embedding.android.FlutterActivity
 

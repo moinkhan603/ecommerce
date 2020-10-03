@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "115596597338",
+    "firebase_url": "https://parashstore-67ccc.firebaseio.com",
+    "project_id": "parashstore-67ccc",
+    "storage_bucket": "parashstore-67ccc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115596597338:android:2cde1489833bb94768a063",
+        "android_client_info": {
+          "package_name": "com.flashsol.parashstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115596597338-mo3tb766gqhfb838o9lo2vrbbcfsfpld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3WPDQZZWbDM8yjnPNoQHLjDDFtMHG0U0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115596597338-mo3tb766gqhfb838o9lo2vrbbcfsfpld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
