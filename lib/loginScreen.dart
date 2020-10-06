@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
 
 
                 ,
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 26),
               ),
               SizedBox(height: 10,),
               Padding(
@@ -137,9 +137,11 @@ registerUser(phone, context);
         timeout: Duration(seconds: 60),
         verificationCompleted:(AuthCredential authCredential) {
           _auth.signInWithCredential(authCredential).then((AuthResult result){
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) => HomePage(result.user)
-            ));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage(result.user)),
+                  (Route<dynamic> route) => false,
+            );
           }).catchError((e){
             print(e);
           });
@@ -181,9 +183,11 @@ registerUser(phone, context);
                         FirebaseUser user = result.user;
 
                         if(user != null){
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => HomePage(user)
-                          ));
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage(user)),
+                                (Route<dynamic> route) => false,
+                          );
                         }else{
                           print("Error");
                         }

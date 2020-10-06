@@ -86,7 +86,7 @@ physics: BouncingScrollPhysics(),
 
       return ListTile(
 
-        leading: Image.asset(item.image,
+        leading: Image.network(item.image,
 
         ),
         trailing: InkWell(

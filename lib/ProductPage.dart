@@ -88,7 +88,7 @@ class ProductPage extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
                   child: Image(
-                    image: AssetImage(product.image),
+                    image: NetworkImage(product.image),
                   ),
                 ),
               ),
