@@ -98,6 +98,7 @@ physics: BouncingScrollPhysics(),
 
                 if(Product.cartList!=null)
                 {
+
                     Product.CartNumber=Product.CartNumber-item.qty;
                     Product.total=Product.total-(item.price*item.qty);
                   item.qty=0;

@@ -15,6 +15,7 @@ import 'package:mykart/loginScreen.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:mykart/widgets/CategoryItem.dart';
 
+import 'admin/adminPanel.dart';
 import 'cart.dart';
 
 class HomePage extends StatefulWidget {
@@ -225,10 +226,19 @@ print("chl2");
 
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "Parash",
-          style: TextStyle(
-            color: Colors.black,
+        title: InkWell(
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>Admin()),
+            );
+
+          },
+          child: Text(
+            "Parash",
+            style: TextStyle(
+              color: Colors.black,
+            ),
           ),
         ),
         backgroundColor: Colors.white,
@@ -564,7 +574,11 @@ print("chl2");
                         ),
 
                         FlatButton(onPressed: () {
-                          addItemtoCart(snapshot.data[index]);
+
+                              addItemtoCart(snapshot.data[index]);
+
+
+
                         },
                           splashColor: Colors.black12,
                           child: Text("Add to cart",
@@ -746,33 +760,44 @@ else
 
       Product.total=Product.total+products.price;
 
-
-if(Product.cartList.contains(products))
+if(Product.cartList!=null)
   {
-  //  var QTY=products.qty+1;
-    Product(qty:products.qty=products.qty+1
-    );
+    if(Product.cartList.contains(products))
+    {
+      //  var QTY=products.qty+1;
+      Product(qty:products.qty=products.qty+1
+      );
 
-   // products.qty=products.qty+1;
+      // products.qty=products.qty+1;
 
 
 
 
+    }
+    else{
+      Product.cartList.add(products);
+      //var QTY=products.qty+1;
+      Product(qty:products.qty=products.qty+1
+      );
+      // Product.total=Product.total+(products.price*products.qty);
+      //Product.total=Product.total+(products.price*products.qty);
+    }
+
+    print("Qty"+products.qty.toString());
+    print(Product.total);
+    //  Product.cartList.add(products);
+    print(Product.cartList.toList());
   }
-else{
-  Product.cartList.add(products);
-  //var QTY=products.qty+1;
-  Product(qty:products.qty=products.qty+1
-  );
- // Product.total=Product.total+(products.price*products.qty);
-  //Product.total=Product.total+(products.price*products.qty);
-}
+
+
+
+
+
+
+
 //var itemResult=(products.price*products.qty);
 
-print("Qty"+products.qty.toString());
-      print(Product.total);
-  //  Product.cartList.add(products);
-    print(Product.cartList.toList());
+
 
     drawerKey.currentState.showSnackBar(new SnackBar(content: new Text("Item Added"),
       duration: const Duration(milliseconds:200 ),

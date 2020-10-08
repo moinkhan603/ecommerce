@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mykart/models/Product.dart';
+import 'package:mykart/result.dart';
+
 class OrderPlacement extends StatefulWidget {
   @override
   _OrderPlacementState createState() => _OrderPlacementState();
 }
 
 class _OrderPlacementState extends State<OrderPlacement> {
+
+  String myaddress;
   @override
   Widget build(BuildContext context) {
 
@@ -13,14 +18,25 @@ class _OrderPlacementState extends State<OrderPlacement> {
     TextStyle mystyle=TextStyle(fontSize: 20,);
     TextStyle mystyle2=TextStyle(fontSize: 20,fontWeight: FontWeight.bold);
     return Scaffold(
-bottomNavigationBar: FlatButton(child:
-  Text("Place Order",style: TextStyle(color: Colors.white),),
+      bottomNavigationBar: Container(
+        height: 50,
+        child: FlatButton(child:
+  Text("Place Order",style: TextStyle(color: Colors.white,
+  fontSize: 18
+  ),),
   color: Colors.black,
-  onPressed: (){
+  onPressed: ()async{
+await placeOrder();
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Result()),
+  );
 
   },
 splashColor: Colors.white70,
   ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(top: 50),
@@ -32,6 +48,7 @@ splashColor: Colors.white70,
             SizedBox(
               height: 255,
               child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
                 decoration: new BoxDecoration(
                   gradient: new LinearGradient(
                       colors: [Colors.yellow, Colors.amber],
@@ -103,7 +120,7 @@ Divider(thickness: 2,),
                             ),
 maxLines: 3,
                             onChanged: (value) {
-
+myaddress=value;
                             }),
 
 
@@ -147,5 +164,41 @@ maxLines: 3,
 
 
     );
+  }
+
+  void placeOrder() async{
+
+
+
+    List yourItemList = [];
+     for (int i = 0; i < Product.cartList.length; i++)
+      yourItemList.add({
+        "name": Product.cartList[i].productName,
+        "qty": Product.cartList[i].qty
+
+      });
+
+
+
+  await Firestore.instance.collection("orders").document().setData({
+
+      'user_id':"xxggxxggxxgg",
+      'order_details':FieldValue.arrayUnion(yourItemList),
+      'status':"pending",
+      'total_amount':Product.total,
+      'address':myaddress
+
+    }).then((value) {
+
+      print('data added');
+
+
+    }).catchError((onError){
+
+      print('Failed to add data');
+
+    });
+
+
   }
 }
