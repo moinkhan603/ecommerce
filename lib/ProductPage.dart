@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mykart/HomePage.dart';
@@ -9,11 +10,12 @@ import 'cart.dart';
 
 class ProductPage extends StatelessWidget {
   final Product product;
-
-  ProductPage({@required this.product});
-
+FirebaseUser user;
+  ProductPage({@required this.product ,@required this.user });
   @override
   Widget build(BuildContext context) {
+
+    print("helo gggg "+ user.uid);
     return Scaffold(
 //      appBar: AppBar(
 //        centerTitle: true,
@@ -66,7 +68,7 @@ class ProductPage extends StatelessWidget {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>Cart()),
+                  MaterialPageRoute(builder: (context) =>Cart(user)),
                 );
 
 

@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 class Product {
    String productName;
@@ -35,16 +36,17 @@ class Product {
 
 
  static Future<List<Product>> getAllData() async {
+    print(category);
     print("Active Users");
     var val = await Firestore.instance
-        .collection("electronics")
+        .collection(category.value)
         .getDocuments();
     var documents = val.documents;
     print("Documents ${documents.length}");
     if (documents.length > 0) {
       try {
 
-        print(documents[2]['name']);
+        print(documents[0]['name']);
         print("Active ${documents.length}");
         return documents.map((document) {
           Product allProducts = Product.fromJson(Map<String, dynamic>.from(document.data));
@@ -64,7 +66,7 @@ static  List<Product> cartList = List<Product>();
 
   static var CartNumber=0.obs;
 static var total=0;
-
-
+  static var category="electronics".obs;
+   static FirebaseUser user;
 
 }

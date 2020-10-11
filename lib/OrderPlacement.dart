@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:mykart/result.dart';
 
 class OrderPlacement extends StatefulWidget {
   @override
   _OrderPlacementState createState() => _OrderPlacementState();
+  FirebaseUser user;
+  OrderPlacement(this.user);
 }
 
 class _OrderPlacementState extends State<OrderPlacement> {
@@ -26,12 +30,21 @@ class _OrderPlacementState extends State<OrderPlacement> {
   ),),
   color: Colors.black,
   onPressed: ()async{
-await placeOrder();
 
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => Result()),
-  );
+          print(widget.user.uid);
+          if(myaddress!=null)
+            {
+              await placeOrder();
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Result()),
+              );
+
+            }
+          else{
+            Fluttertoast.showToast(msg: "Address Cannot Be Empty");
+          }
 
   },
 splashColor: Colors.white70,
@@ -128,33 +141,33 @@ myaddress=value;
 
                     ],
                   )),
-              Padding(
-                  padding: EdgeInsets.only(
-                      left: 25.0,
-                      right: 25.0,
-                      top: 20.0),
-                  child: new Row(
-                    mainAxisSize: MainAxisSize
-                        .max,
-                    children: <Widget>[
-                      new Flexible(
-                        child: new TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: "Enter Your Number",
-
-                            ),
-
-                            onChanged: (value) {
-
-                            }),
-
-
-                      ),
-
-                    ],
-                  )),
+//              Padding(
+//                  padding: EdgeInsets.only(
+//                      left: 25.0,
+//                      right: 25.0,
+//                      top: 20.0),
+//                  child: new Row(
+//                    mainAxisSize: MainAxisSize
+//                        .max,
+//                    children: <Widget>[
+//                      new Flexible(
+//                        child: new TextField(
+//                            keyboardType: TextInputType.number,
+//                            decoration: const InputDecoration(
+//                                border: OutlineInputBorder(),
+//                                hintText: "Enter Your Number",
+//
+//                            ),
+//
+//                            onChanged: (value) {
+//
+//                            }),
+//
+//
+//                      ),
+//
+//                    ],
+//                  )),
 
 
           ],),
@@ -182,7 +195,8 @@ myaddress=value;
 
   await Firestore.instance.collection("orders").document().setData({
 
-      'user_id':"xxggxxggxxgg",
+      'user_id':widget.user.uid,
+      'phoneNumber':widget.user.phoneNumber,
       'order_details':FieldValue.arrayUnion(yourItemList),
       'status':"pending",
       'total_amount':Product.total,

@@ -8,11 +8,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:mykart/ProductPage.dart';
 import 'package:mykart/loginScreen.dart';
 import 'package:mykart/models/Product.dart';
+import 'package:mykart/myorders.dart';
 import 'package:mykart/widgets/CategoryItem.dart';
 
 import 'admin/adminPanel.dart';
@@ -32,29 +34,19 @@ class _HomePageState extends State<HomePage> {
 
 
   FirebaseUser loginuser;
-
+var myfilter="".obs;
  // List<Product> _cartList = List<Product>();
 
   int CartNumber=0;
   StreamSubscription<QuerySnapshot>subscription;
 
-  List<DocumentSnapshot>samaan;
+  List<DocumentSnapshot>banner;
 
   final CollectionReference collectionReference=
-  Firestore.instance.collection("electronics");
+  Firestore.instance.collection("banner");
 
 
 
-  List bannerAdSlider = [
-    "assets/banner1.jpg",
-    "assets/banner2.jpg",
-    "assets/banner3.jpg",
-    "assets/banner4.jpg",
-    "assets/banner5.jpg",
-    "assets/banner6.jpg",
-    "assets/banner7.jpg",
-    "assets/banner8.jpg"
-  ];
 
 
   Future<List<Product>> products;
@@ -175,13 +167,13 @@ subscription=collectionReference
 
 
   setState(() {
-    samaan=datasnapshot.documents;
+    banner=datasnapshot.documents;
   });
 
 
 });
 
-Product.getAllData();
+//Product.getAllData();
 
   }
 
@@ -207,6 +199,10 @@ loginuser=firebaseUser;
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
 print("chl2");
 //print(loginuser.phoneNumber);
 
@@ -276,7 +272,7 @@ print("chl2");
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>Cart()),
+                  MaterialPageRoute(builder: (context) =>Cart(loginuser)),
                 );
 
 
@@ -360,42 +356,67 @@ print("chl2");
               leading: Icon(EvaIcons.person),
 
             ): ListTile(
-              title: Text("Address"),
-              leading: Icon(FontAwesomeIcons.addressBook),
-            ),
-            SizedBox(height: 10),
-            ListTile(
               onTap: (){
+                Product.user=loginuser;
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>Cart()),
+                  MaterialPageRoute(builder: (context) =>MyOrders()),
                 );
-
               },
-              title: Text("Mycart"),
-              leading: Icon(EvaIcons.shoppingBag),
-              trailing: Badge(
-                badgeContent:Obx(() => Text(Product.CartNumber.string,
-                  style: TextStyle(color: Colors.white),
-                ),
-
-
-                ),
-              ),
+              title: Text("Orders"),
+              leading: Icon(FontAwesomeIcons.briefcase),
             ),
+
 
             SizedBox(height: 10),
             ListTile(
-              title: Text("Orders"),
+onTap: (){
+  setState(() {
+    Product.category.value="Mart";
+  });
+  Navigator.pop(context);
+},
+              title: Text("Mart"),
               leading: Icon(FontAwesomeIcons.shoppingBag),
             ),
             SizedBox(height: 10),
             ListTile(
+              onTap: (){
+
+
+                setState(() {
+                  Product.category.value="electronics";
+                });
+                Navigator.pop(context);
+                print(Product.category);
+              },
               title: Text("Electronics"),
               leading: Icon(FontAwesomeIcons.lightbulb),
             ),
             SizedBox(height: 10),
             ListTile(
+              onTap: (){
+                setState(() {
+                  Product.category.value="Others";
+                });
+                Navigator.pop(context);
+
+              },
+              title: Text("Others"),
+              leading: Icon(FontAwesomeIcons.evernote),
+
+            ),
+            SizedBox(height: 10),
+            ListTile(
+              onTap: (){
+
+                print(Product.category);
+
+                setState(() {
+                  Product.category.value="Clothes";
+                });
+                Navigator.pop(context);
+              },
               title: Text("Clothes"),
               leading: Icon(FontAwesomeIcons.tshirt),
             ),
@@ -446,7 +467,7 @@ print("chl2");
                 child: TextField(
                   onChanged: (value){
                     print(value);
-
+myfilter.value=value;
                   },
                   decoration: InputDecoration(
 //          prefixIcon: Icon(Icons.person, color: Colors.black26,),
@@ -470,32 +491,59 @@ print("chl2");
               ),
               // banner ad slider
 
-              CarouselSlider(
-
+banner!=null?
+              CarouselSlider.builder(
+                  itemCount: banner.length,
+                  itemBuilder: (BuildContext ctxt, int index) {
+                    String images = banner[index].data['img1'];
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image(
+                          image: NetworkImage(images),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
+                        ),
+                      ),
+                    );
+                  },
                 options: CarouselOptions(
 
                   aspectRatio: 16 / 8,
                   autoPlay: true,
                 ),
-                items: bannerAdSlider.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image(
-                            image: AssetImage(i),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
+              ):
+    CircularProgressIndicator()
+,
+
+//              CarouselSlider(
+//
+//                options: CarouselOptions(
+//
+//                  aspectRatio: 16 / 8,
+//                  autoPlay: true,
+//                ),
+//                items: bannerAdSlider.map((i) {
+//                  return Builder(
+//                    builder: (BuildContext context) {
+//                      return Container(
+//                        width: MediaQuery.of(context).size.width,
+//                        margin: EdgeInsets.symmetric(horizontal: 10.0),
+//                        child: ClipRRect(
+//                          borderRadius: BorderRadius.circular(10),
+//                          child: Image(
+//                            image: AssetImage(i),
+//                            fit: BoxFit.cover,
+//                            alignment: Alignment.topCenter,
+//                          ),
+//                        ),
+//                      );
+//                    },
+//                  );
+//                }).toList(),
+//              ),
 
               // banner ad slider
 
@@ -522,6 +570,10 @@ print("chl2");
                 future: Product.getAllData(),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
+
+     //snapshot.data.contains("macbbok");
+
+
         print("just lngth"+snapshot.data.length.toString());
         return GridView.builder(
             physics: ClampingScrollPhysics(),
@@ -532,153 +584,86 @@ print("chl2");
               childAspectRatio: 1/2
             ),
             itemBuilder: (context, index) {
-              return  Stack(
-                children: <Widget>[
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Hero(
-                          tag: snapshot.data[index].image,
-                          child: AspectRatio(
-                            aspectRatio: 1 / 1,
-                            child: Material(
 
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProductPage(
-                                              product: snapshot.data[index],
-                                            ),
-                                      ));
-                                },
-                                child: Image(
-                                  image: NetworkImage(snapshot.data[index].image),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Text(
-                          snapshot.data[index].productName,
-                        ),
-                        Text(
-                          "RS ${snapshot.data[index].price}",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.amber,
-                          ),
-                        ),
+              if(snapshot.data[index].productName.contains(myfilter.string))
 
-                        FlatButton(onPressed: () {
-
-                              addItemtoCart(snapshot.data[index]);
+                {
 
 
+                  return  Stack(
+                    children: <Widget>[
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Hero(
+                              tag: snapshot.data[index].image,
+                              child: AspectRatio(
+                                aspectRatio: 1 / 1,
+                                child: Material(
 
-                        },
-                          splashColor: Colors.black12,
-                          child: Text("Add to cart",
-                            style: TextStyle(color: Colors.white),
+                                  child: InkWell(
+                                    onTap: () {
 
-                          ),
-                          color: Colors.black,
-                        )
+                                      if(loginuser!=null)
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductPage(
+                                                      product: snapshot.data[index],
+                                                      user: loginuser,
+                                                    ),
+                                              ));
+                                        }
+                                      else{
+                                        Fluttertoast.showToast(msg: "Please login First");
+                                      }
 
-                      ],
-                    ),
-                  ),
-//                      Material(
-//                        color: Colors.transparent,
-//                        child: InkWell(
-//                          onTap: () {
-//                            Navigator.push(
-//                                context,
-//                                MaterialPageRoute(
-//                                  builder: (context) => ProductPage(
-//                                    product: product,
-//                                  ),
-//                                ));
-//                          },
-//                        ),
-//                      )
-                ],
-              );;
-            }
-        );
-
-
-
-
-
-        GridView.count(
-            physics: ClampingScrollPhysics(),
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            childAspectRatio: 1 / 2,
-
-            // children: products.map((product)
-            children: Product.getAllData().then((product) {
-              for (var task in product) {
-                print(task.productName);
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Hero(
-                            tag: task.image,
-                            child: AspectRatio(
-                              aspectRatio: 1 / 1,
-                              child: Material(
-
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductPage(
-                                                product: task,
-                                              ),
-                                        ));
-                                  },
-                                  child: Image(
-                                    image: NetworkImage(task.image),
+                                    },
+                                    child: Image(
+                                      image: NetworkImage(snapshot.data[index].image),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Text(
-                            task.productName,
-                          ),
-                          Text(
-                            "RS ${task.price}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.amber,
+                            Text(
+                              snapshot.data[index].productName,
                             ),
-                          ),
-
-                          FlatButton(onPressed: () {
-                            addItemtoCart(product);
-                          },
-                            splashColor: Colors.black12,
-                            child: Text("Add to cart",
-                              style: TextStyle(color: Colors.white),
-
+                            Text(
+                              "RS ${snapshot.data[index].price}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.amber,
+                              ),
                             ),
-                            color: Colors.black,
-                          )
 
-                        ],
+                            FlatButton(onPressed: () {
+if(loginuser!=null)
+  {
+    addItemtoCart(snapshot.data[index]);
+  }
+        else
+          {
+            Fluttertoast.showToast(msg: "Please Login First");
+          }
+
+
+
+                            },
+                              splashColor: Colors.black12,
+                              child: Text("Add to cart",
+                                style: TextStyle(color: Colors.white),
+
+                              ),
+                              color: Colors.black,
+                            )
+
+                          ],
+                        ),
                       ),
-                    ),
 //                      Material(
 //                        color: Colors.transparent,
 //                        child: InkWell(
@@ -693,15 +678,23 @@ print("chl2");
 //                          },
 //                        ),
 //                      )
-                  ],
-                ); // do something
-              }
+                    ],
+                  );
+                }
+              else
+                {
+
+                }
+
+
             }
-
-
-            ) as List
-//                    .toList(),
         );
+
+
+
+
+
+
       }
 
 else

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mykart/OrderPlacement.dart';
 import 'package:mykart/models/Product.dart';
@@ -6,8 +7,8 @@ class Cart extends StatefulWidget {
   _CartState createState() => _CartState();
 
  // List<Product> _cartList = List<Product>();
-
-  Cart();
+FirebaseUser user;
+  Cart([this.user]);
 
 }
 
@@ -33,7 +34,7 @@ class _CartState extends State<Cart> {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => OrderPlacement()),
+            MaterialPageRoute(builder: (context) => OrderPlacement(widget.user)),
           );
         },
         child: Container(

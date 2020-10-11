@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mykart/admin/addItem.dart';
+
+import 'banner.dart';
 class Categories extends StatefulWidget {
   @override
   _CategoriesState createState() => _CategoriesState();
@@ -24,7 +26,7 @@ class _CategoriesState extends State<Categories> {
               children: <Widget>[
 
                 categoryCard("Clothes",Icon(FontAwesomeIcons.tshirt,color: Colors.amber,size: 42,)),
-                categoryCard("Electronics",Icon(FontAwesomeIcons.laptop,color: Colors.red,size: 42,)),
+                categoryCard("electronics",Icon(FontAwesomeIcons.laptop,color: Colors.red,size: 42,)),
                 categoryCard("Mart",Icon(FontAwesomeIcons.shoppingBag,color: Colors.blue,size: 42,)),
                 categoryCard("Others",Icon(FontAwesomeIcons.evernote,color: Colors.green,size: 42,)),
                 categoryCard("Add Banner Images",Icon(FontAwesomeIcons.buysellads,color: Colors.orange,size: 42,)),
@@ -42,10 +44,23 @@ class _CategoriesState extends State<Categories> {
 
     return InkWell(
       onTap: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AddItem()),
-        );
+        if(name.contains("Add")){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Bannerz()),
+          );
+
+        }
+        else{
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddItem(name)),
+          );
+        }
+
+
+
+
       },
       child: Card(
         shape: RoundedRectangleBorder(
