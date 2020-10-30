@@ -3,7 +3,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mykart/HomePage.dart';
 import 'package:mykart/models/Product.dart';
 
 import 'cart.dart';
@@ -56,7 +55,8 @@ FirebaseUser user;
           Badge(
 
             badgeColor: Colors.red,
-            position: BadgePosition.topLeft(top: 10,left: 1),
+            position: BadgePosition.topStart(top: 10,start: 10),
+            //position: BadgePosition(top: 10,),
             badgeContent: Obx(() => Text(Product.CartNumber.string,
               style: TextStyle(color: Colors.white),
             ),

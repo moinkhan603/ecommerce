@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_rx/src/rx_core/rx_impl.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:get/get.dart';
 

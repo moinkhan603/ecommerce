@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +14,6 @@ import 'package:mykart/ProductPage.dart';
 import 'package:mykart/loginScreen.dart';
 import 'package:mykart/models/Product.dart';
 import 'package:mykart/myorders.dart';
-import 'package:mykart/widgets/CategoryItem.dart';
 
 import 'admin/adminPanel.dart';
 import 'cart.dart';
@@ -257,7 +255,7 @@ print("chl2");
           Badge(
 
             badgeColor: Colors.red,
-            position: BadgePosition.topLeft(top: 10,left: -1),
+            position: BadgePosition.bottomEnd(bottom: 10,end: 5),
             badgeContent:Obx(() => Text(Product.CartNumber.string,
               style: TextStyle(color: Colors.white),
             ),
